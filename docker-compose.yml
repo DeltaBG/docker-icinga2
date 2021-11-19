@@ -1,0 +1,74 @@
+version: '2'
+networks:
+  icinga:
+    name: icinga
+services:
+  icinga_mariadb:
+    image: mariadb:focal
+    container_name: icinga_mariadb
+    restart: unless-stopped
+    networks:
+      - icinga
+    hostname: icinga-mariadb
+    env_file:
+      - example.env
+    volumes:
+      - /data/var/lib/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-p$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 10s
+      retries: 9
+      start_period: 5s
+  icinga_graphite:
+    image: graphiteapp/graphite-statsd
+    container_name: icinga_graphite
+    restart: unless-stopped
+    networks:
+      - icinga
+    hostname: icinga-graphite
+    env_file:
+      - example.env
+  icinga_icinga2:
+    image: deltabg/icinga2
+    container_name: icinga_icinga2
+    restart: unless-stopped
+    networks:
+      - icinga
+    hostname: icinga-icinga2
+    env_file:
+      - example.env
+    volumes:
+      - /data/etc/icinga2:/etc/icinga2
+      - /data/var/lib/icinga2:/var/lib/icinga2
+      - /data/var/log/icinga2:/var/log/icinga2
+    ports:
+      - "5665:5665"
+    privileged: true
+    depends_on:
+      icinga_mariadb:
+        condition: service_healthy
+      icinga_graphite:
+        condition: service_started
+  icinga_icingaweb2:
+    image: deltabg/icingaweb2
+    container_name: icinga_icingaweb2
+    restart: unless-stopped
+    networks:
+      - icinga
+    hostname: icinga-icingaweb2
+    env_file:
+      - example.env
+    volumes:
+      - /data/etc/icingaweb2:/etc/icingaweb2
+      - /data/var/log/icingaweb2:/var/log/icingaweb2
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      icinga_mariadb:
+        condition: service_healthy
+      icinga_graphite:
+        condition: service_started
+      icinga_icinga2:
+        condition: service_healthy

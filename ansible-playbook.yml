@@ -1,0 +1,86 @@
+---
+# Ansible playbook for deploying icinga2 as if run from docker-compose.yml
+- name: Deploy icinga2 master.
+  hosts: localhost
+  vars:
+    icinga_network: icinga
+    env_file: "example.env"
+  tasks:
+    - name: Create icinga2 network.
+      docker_network:
+        name: "{{ icinga_network }}"
+    - name: Create icinga2_mariadb container.
+      docker_container:
+        name: icinga_mariadb
+        hostname: icinga-mariadb
+        image: mariadb:focal
+        restart_policy: unless-stopped
+        networks:
+          - name: "{{ icinga_network }}"
+        env_file: "{{ env_file }}"
+        volumes:
+          - /data/var/lib/mysql:/var/lib/mysql
+        healthcheck:
+          test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-p$MYSQL_ROOT_PASSWORD"]
+          interval: 10s
+          timeout: 10s
+          retries: 9
+          start_period: 5s
+    - name: Wait for healthy status of icinga_mariadb
+      shell: docker inspect --format='{''{.State.Health.Status}''}' icinga_mariadb
+      register: result
+      until: result.stdout == "healthy"
+      retries: 20
+      delay: 5
+    - name: Create icinga2_graphite container
+      docker_container:
+        name: icinga_graphite
+        hostname: icinga-graphite
+        image: graphiteapp/graphite-statsd
+        restart_policy: unless-stopped
+        networks:
+          - name: "{{ icinga_network }}"
+        env_file: "{{ env_file }}"
+    - name: Create icinga_icinga2 container.
+      docker_container:
+        name: icinga_icinga2
+        hostname: icinga-icinga2
+        image: deltabg/icinga2
+        restart_policy: unless-stopped
+        networks:
+          - name: "{{ icinga_network }}"
+        env_file: "{{ env_file }}"
+        volumes:
+          - /data/etc/icinga2:/etc/icinga2
+          - /data/var/lib/icinga2:/var/lib/icinga2
+          - /data/var/log/icinga2:/var/log/icinga2
+        published_ports:
+          - "5665:5665"
+        privileged: yes
+    - name: Wait for healthy status of icinga_icinga2
+      shell: docker inspect --format='{''{.State.Health.Status}''}' icinga_icinga2
+      register: result
+      until: result.stdout == "healthy"
+      retries: 20
+      delay: 5
+    - name: Create icinga_icingaweb2 container.
+      docker_container:
+        name: icinga_icingaweb2
+        hostname: icinga-icingaweb2
+        image: deltabg/icingaweb2
+        restart_policy: unless-stopped
+        networks:
+          - name: "{{ icinga_network }}"
+        env_file: "{{ env_file }}"
+        volumes:
+          - /data/etc/icingaweb2:/etc/icingaweb2
+          - /data/var/log/icingaweb2:/var/log/icingaweb2
+        published_ports:
+          - "80:80"
+          - "443:443"
+    - name: Wait for healthy status of icinga_icingaweb2
+      shell: docker inspect --format='{''{.State.Health.Status}''}' icinga_icingaweb2
+      register: result
+      until: result.stdout == "healthy"
+      retries: 20
+      delay: 5
