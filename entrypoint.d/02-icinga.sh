@@ -24,7 +24,7 @@ EOF
 
 # Enable and setting up Icinga2 API.
 echo "Entrypoint: Enable and setting up Icinga2 API."
-icinga2 api setup
+icinga2 api setup --cn $ICINGA2_CN
 cat <<EOF > /etc/icinga2/conf.d/api-users.conf
 /**
  * The ApiUser objects are used for authentication against the API.
@@ -38,4 +38,4 @@ EOF
 
 # Generate TicketSalt in /etc/icinga2/constants.conf.
 echo "Entrypoint: Generate TicketSalt in /etc/icinga2/constants.conf."
-sed -i "s/^const TicketSalt =.*/const TicketSalt = \"$(pwgen 64 1)\"/g" /etc/icinga2/constants.conf
+icinga2 node setup --master --cn $ICINGA2_CN --zone $ICINGA2_ZONE_NAME
