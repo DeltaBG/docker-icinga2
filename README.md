@@ -208,6 +208,8 @@ Variables marked in **bold** are recommended to be adjusted according to your ne
 
 | Variable                                        | Default Value        | Description                                                                        |
 | ----------------------------------------------- | -------------------- | ---------------------------------------------------------------------------------- |
+| `ICINGA2_CN`                                    | localhost            | Common name used for certificate signing.                                          |
+| `ICINGA2_ZONE_NAME`                             | localhost            | Icinga 2 zone name.                                                                |
 | `DEFAULT_MYSQL_PORT`                            | 3306                 | Default database port.                                                             |
 | `MYSQL_ROOT_USER`                               | root                 | Database root user.                                                                |
 | **`MYSQL_ROOT_PASSWORD`**                       |                      | Database root user password.                                                       |
