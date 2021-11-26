@@ -16,3 +16,9 @@ chown -R nagios:nagios /var/lib/icinga2
 echo "Entrypoint: Create directory /var/log/icinga2."
 mkdir -p /var/log/icinga2
 chown -R nagios:adm /var/log/icinga2
+
+# Create directory /usr/lib/nagios/plugins and copy original plugins.
+echo "Entrypoint: Create directory /usr/lib/nagios/plugins."
+mkdir -p /usr/lib/nagios/plugins
+cp -a /usr/lib/nagios/plugins.dist/* /usr/lib/nagios/plugins/
+chown root:root /usr/lib/nagios/plugins

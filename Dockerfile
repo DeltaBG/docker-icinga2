@@ -3,7 +3,7 @@
 
 FROM ubuntu:focal
 
-VOLUME /etc/icinga2
+VOLUME ["/etc/icinga2", "/usr/lib/nagios/plugins"]
 
 # Update system and install requirements
 RUN export DEBIAN_FRONTEND=noninteractive \
@@ -32,7 +32,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt/lists/* \
     && /usr/lib/icinga2/prepare-dirs /etc/default/icinga2 \
     # Copy original configs in /etc/icinga2.dist/
-    && cp -a /etc/icinga2 /etc/icinga2.dist
+    && cp -a /etc/icinga2 /etc/icinga2.dist \
+    # Copy original nagios plugins to /usr/lib/nagios/plugins.dist
+    && cp -a /usr/lib/nagios/plugins /usr/lib/nagios/plugins.dist
 
 # Copy entrypoint.d, entrypoint.sh and healthcheck.sh scripts
 ADD entrypoint.d/ /entrypoint.d/
