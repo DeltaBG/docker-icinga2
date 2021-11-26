@@ -231,10 +231,11 @@ Variables marked in **bold** are recommended to be adjusted according to your ne
 The following folders are configured and can be mounted as volumes.
 
 | Volume           | Description                    |
-| ---------------- | ------------------------------ |
-| /etc/icinga2     | Icinga 2 configuration folder. |
-| /var/lib/icinga2 | Icinga 2 library folder.       |
-| /var/log/icinga2 | Icinga 2 log folder.           |
+| ----------------------- | ------------------------------ |
+| /etc/icinga2            | Icinga 2 configuration folder. |
+| /var/lib/icinga2        | Icinga 2 library folder.       |
+| /var/log/icinga2        | Icinga 2 log folder.           |
+| /usr/lib/nagios/plugins | Nagios plugins folder.         |
 
 # Authors
 
