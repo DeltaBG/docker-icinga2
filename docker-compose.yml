@@ -42,6 +42,7 @@ services:
       - /data/etc/icinga2:/etc/icinga2
       - /data/var/lib/icinga2:/var/lib/icinga2
       - /data/var/log/icinga2:/var/log/icinga2
+      - /data/usr/lib/nagios/plugins:/usr/lib/nagios/plugins
     ports:
       - "5665:5665"
     privileged: true
