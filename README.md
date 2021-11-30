@@ -230,7 +230,7 @@ Variables marked in **bold** are recommended to be adjusted according to your ne
 
 The following folders are configured and can be mounted as volumes.
 
-| Volume           | Description                    |
+| Volume                  | Description                    |
 | ----------------------- | ------------------------------ |
 | /etc/icinga2            | Icinga 2 configuration folder. |
 | /var/lib/icinga2        | Icinga 2 library folder.       |
