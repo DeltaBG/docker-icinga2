@@ -225,6 +225,11 @@ Variables marked in **bold** are recommended to be adjusted according to your ne
 | `ICINGA2_FEATURE_GRAPHITE_PORT`                 | 2003                 | Port of the Carbon/Graphite.                                                       |
 | `ICINGA2_FEATURE_GRAPHITE_SEND_THRESHOLDS`      | true                 | If you want to send `min`, `max`, `warn` and `crit` values for perf data.          |
 | `ICINGA2_FEATURE_GRAPHITE_SEND_METADATA`        | false                | If you want to send `state`, `latency` and `execution_time` values for the checks. |
+| `ICINGA2_SATELLITE`                             | false                | Whether you want to deploy the configuration as a satellite.                       |
+| `ICINGA2_SATELLITE_PARENT`                      | `$ICINGA2_CN`        | Used for CN and endpoint connection when setting up as a satellite.                |
+| `ICINGA2_SATELLITE_PARENT_API_PORT`             | `$ICINGA2_API_PORT`  | Parent API port. Used when setting up as a satellite.                              |
+| `ICINGA2_SATELLITE_CN`                          | localhost.satellite  | Icinga 2 satellite common name.                                                    |
+| `ICINGA2_SATELLITE_ZONE_NAME`                   | localhost.satellite  | Icinga 2 satellite zone name.                                                      |
 
 ### Volumes
 

@@ -38,4 +38,13 @@ EOF
 
 # Generate TicketSalt in /etc/icinga2/constants.conf.
 echo "Entrypoint: Generate TicketSalt in /etc/icinga2/constants.conf."
-icinga2 node setup --master --cn $ICINGA2_CN --zone $ICINGA2_ZONE_NAME
+
+if $ICINGA2_SATELLITE; then
+  echo "Entrypoint: Retrieve certificate from the parent host."
+  icinga2 pki save-cert --host $ICINGA2_SATELLITE_PARENT --port $ICINGA2_SATELLITE_PARENT_API_PORT --cert $ICINGA2_SATELLITE_CN.crt --trustedcert /var/lib/icinga2/certs/$ICINGA2_SATELLITE_PARENT
+  echo "Entrypoint: Run node setup for a satellite configuration."
+  icinga2 node setup --cn $ICINGA2_SATELLITE_CN --zone $ICINGA2_SATELLITE_ZONE_NAME --endpoint $ICINGA2_SATELLITE_PARENT --parent_host $ICINGA2_SATELLITE_PARENT
+else
+  echo "Entrypoint: Run node setup for a master configuration."
+  icinga2 node setup --master --cn $ICINGA2_CN --zone $ICINGA2_ZONE_NAME
+fi
