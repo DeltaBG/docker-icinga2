@@ -36,9 +36,6 @@ object ApiUser "$ICINGA2_API_USER" {
 }
 EOF
 
-# Generate TicketSalt in /etc/icinga2/constants.conf.
-echo "Entrypoint: Generate TicketSalt in /etc/icinga2/constants.conf."
-
 if $ICINGA2_SATELLITE; then
   echo "Entrypoint: Retrieve certificate from the parent host."
   icinga2 pki save-cert --host $ICINGA2_SATELLITE_PARENT --port $ICINGA2_SATELLITE_PARENT_API_PORT --cert $ICINGA2_SATELLITE_CN.crt --trustedcert /var/lib/icinga2/certs/$ICINGA2_SATELLITE_PARENT
