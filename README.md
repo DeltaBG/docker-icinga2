@@ -239,7 +239,7 @@ Variables marked in **bold** are recommended to be adjusted according to your ne
 | `ICINGA2_SATELLITE_PARENT_API_PORT`             | 5665                 | Parent API port. Used when setting up as a satellite.                              |
 | `ICINGA2_SATELLITE_CN`                          | `$ICINGA2_CN`        | Icinga 2 satellite common name.                                                    |
 | `ICINGA2_SATELLITE_ZONE_NAME`                   | `$ICINGA2_ZONE_NAME` | Icinga 2 satellite zone name.                                                      |
-| `MSMTP_TLS`                                     | on                   | Whether of not TLS authentication is enabled.                                      |
+| `MSMTP_TLS`                                     | on                   | Whether of not TLS authentication is enabled. Allowed values are `on` or `off`.    |
 | `MSMTP_ACCOUNT`                                 | gmail                | Name of the account which msmtp will use.                                          |
 | `MSMTP_HOST`                                    | smtp.gmail.com       | Remote SMTP host that msmtp will use to connect to.                                |
 | `MSMTP_PORT`                                    | 587                  | Remote SMTP port that msmtp will use.                                              |
