@@ -200,6 +200,13 @@ docker run -d \
 
 Check the [Environmental Variables](#environment-variables) section for more information. 
 
+### Sending email notifications via msmtp
+
+The docker container will have msmtp installed by defult. Msmtp is a mail client, which uses already preconfigured remote SMTP server.
+You can read more about msmtp at the [official website](https://marlam.de/msmtp/). The configuration of msmtp is done via the environment variables 
+`MSMTP_TLS`, `MSMTP_ACCOUNT`, `MSMTP_HOST`, `MSMTP_PORT`, `MSMTP_FROM`, `MSMTP_USER` and `MSMTP_PASSWORD`. If you are not planning to have mail notifications,
+you can simply skip configuring your environment file and use the defalt values.
+
 ## Reference
 
 ### Environment variables
@@ -230,6 +237,13 @@ Variables marked in **bold** are recommended to be adjusted according to your ne
 | `ICINGA2_SATELLITE_PARENT_API_PORT`             | 5665                 | Parent API port. Used when setting up as a satellite.                              |
 | `ICINGA2_SATELLITE_CN`                          | `$ICINGA2_CN`        | Icinga 2 satellite common name.                                                    |
 | `ICINGA2_SATELLITE_ZONE_NAME`                   | `$ICINGA2_ZONE_NAME` | Icinga 2 satellite zone name.                                                      |
+| `MSMTP_TLS`                                     | on                   | Whether of not TLS authentication is enabled.                                      |
+| `MSMTP_ACCOUNT`                                 | gmail                | Name of the account which msmtp will use.                                          |
+| `MSMTP_HOST`                                    | smtp.gmail.com       | Remote SMTP host that msmtp will use to connect to.                                |
+| `MSMTP_PORT`                                    | 587                  | Remote SMTP port that msmtp will use.                                              |
+| `MSMTP_FROM`                                    | example@gmail.com    | From address, that msmtp will use to send emails.                                  |
+| `MSMTP_USER`                                    | example@gmail.com    | User, that msmtp will use for authentication.                                      |
+| `MSMTP_PASSWORD`                                | examplepass          | Password for `MSMTP_USER` that msmtp will use for authentication.                  |
 
 ### Volumes
 
