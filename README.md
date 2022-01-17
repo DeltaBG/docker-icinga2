@@ -207,6 +207,8 @@ You can read more about msmtp at the [official website](https://marlam.de/msmtp/
 `MSMTP_TLS`, `MSMTP_ACCOUNT`, `MSMTP_HOST`, `MSMTP_PORT`, `MSMTP_FROM`, `MSMTP_USER` and `MSMTP_PASSWORD`. If you are not planning to have mail notifications,
 you can simply skip configuring your environment file and use the defalt values.
 
+If you want to update your SMTP credentials, you will need to redact the .env file and then re-run docker-compose.
+
 ## Reference
 
 ### Environment variables
