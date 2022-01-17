@@ -51,6 +51,11 @@ if [ ! -f "$_ICINGA2_INSTALLED_FILE" ]; then
 
 fi
 
+# Additional post-scripts
+
+# Run msmtp configuration
+/entrypoint.d/msmtp.sh
+
 # Start Icinga2 daemon.
 echo "Entrypoint: Start Icinga2 daemon."
 /usr/sbin/icinga2 daemon

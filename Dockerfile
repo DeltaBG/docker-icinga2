@@ -28,6 +28,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
         nagios-snmp-plugins \
         libmonitoring-plugin-perl \
         pwgen \
+        msmtp-mta \
+        mailutils \
+        bsd-mailx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && /usr/lib/icinga2/prepare-dirs /etc/default/icinga2 \
