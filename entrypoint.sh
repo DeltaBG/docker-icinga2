@@ -28,28 +28,28 @@ export ICINGA2_FEATURE_GRAPHITE_SEND_METADATA=${ICINGA2_FEATURE_GRAPHITE_SEND_ME
 # Export environment constants
 export _ICINGA2_INSTALLED_FILE=/etc/icinga2/installed
 
-# Check Icinga2 is not yet installed.
-if [ ! -f "$_ICINGA2_INSTALLED_FILE" ]; then
+# Default is not installed
+export _ICINGA2_INSTALLED=false
 
-    # If so, we perform the initial setup.
-    echo "Entrypoint: Start Icinga2 initial setup!"
-
-    # Run Initial script
-    /entrypoint.d/00-initial.sh
-
-    # Run Database script
-    /entrypoint.d/01-database.sh
-
-    # Run Icinga 2 script
-    /entrypoint.d/02-icinga.sh
-
-    # Run Icinga 2 features script
-    /entrypoint.d/03-icinga-features.sh
-
-    # Run Final script
-    /entrypoint.d/10-final.sh
-
+# Check Icinga 2 is installed.
+if [ -f "$_ICINGA2_INSTALLED_FILE" ]; then
+    export _ICINGA2_INSTALLED=true
 fi
+
+# Run Initial script
+/entrypoint.d/00-initial.sh
+
+# Run Database script
+/entrypoint.d/01-database.sh
+
+# Run Icinga 2 script
+/entrypoint.d/02-icinga.sh
+
+# Run Icinga 2 features scripts
+/entrypoint.d/04-icinga-features/graphite.sh
+
+# Run Final script
+/entrypoint.d/10-final.sh
 
 # Additional post-scripts
 
