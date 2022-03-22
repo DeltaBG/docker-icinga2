@@ -11,7 +11,7 @@ services:
       - icinga
     hostname: icinga-mariadb
     env_file:
-      - example.env
+      - example-graphite.env
     volumes:
       - /data/var/lib/mysql:/var/lib/mysql
     healthcheck:
@@ -28,7 +28,7 @@ services:
       - icinga
     hostname: icinga-graphite
     env_file:
-      - example.env
+      - example-graphite.env
   icinga_icinga2:
     image: deltabg/icinga2
     container_name: icinga_icinga2
@@ -37,7 +37,7 @@ services:
       - icinga
     hostname: icinga-icinga2
     env_file:
-      - example.env
+      - example-graphite.env
     volumes:
       - /data/etc/icinga2:/etc/icinga2
       - /data/var/lib/icinga2:/var/lib/icinga2
@@ -59,7 +59,7 @@ services:
       - icinga
     hostname: icinga-icingaweb2
     env_file:
-      - example.env
+      - example-graphite.env
     volumes:
       - /data/etc/icingaweb2:/etc/icingaweb2
       - /data/var/log/icingaweb2:/var/log/icingaweb2
