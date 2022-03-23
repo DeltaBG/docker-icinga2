@@ -32,6 +32,20 @@ services:
     volumes:
       - /data/var/lib/influxdb2:/var/lib/influxdb2
       - /data/etc/influxdb2:/etc/influxdb2
+  icinga_grafana:
+    image: grafana/grafana-oss:8.4.4
+    container_name: icinga_grafana
+    restart: unless-stopped
+    networks:
+      - icinga
+    hostname: icinga-grafana
+    env_file:
+      - example-grafana.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      icinga_influxdb:
+        condition: service_started
   icinga_icinga2:
     image: deltabg/icinga2
     container_name: icinga_icinga2
@@ -54,6 +68,8 @@ services:
         condition: service_healthy
       icinga_influxdb:
         condition: service_started
+      icinga_grafana:
+        condition: service_started
   icinga_icingaweb2:
     image: deltabg/icingaweb2
     container_name: icinga_icingaweb2
@@ -73,6 +89,8 @@ services:
       icinga_mariadb:
         condition: service_healthy
       icinga_influxdb:
+        condition: service_started
+      icinga_grafana:
         condition: service_started
       icinga_icinga2:
         condition: service_healthy
