@@ -29,6 +29,10 @@ services:
     hostname: icinga-graphite
     env_file:
       - example.env
+    volumes:
+      - /data/opt/graphite/conf:/opt/graphite/conf
+      - /data/opt/graphite/storage:/opt/graphite/storage
+      - /data/opt/statsd/config:/opt/statsd/config
   icinga_icinga2:
     image: deltabg/icinga2
     container_name: icinga_icinga2
